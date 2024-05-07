@@ -1,0 +1,5 @@
+NotNullCampo : Campo obrigatório
+NotBlank: Campo obrigatório
+Positive: O valor deve ser positivo
+Size: O campo deve ter um valor mínimo de {2} e máximo de {1} caracteres
+PastOrPresent: Não pode ser uma data futura
