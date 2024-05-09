@@ -15,18 +15,15 @@ import java.util.UUID;
 public class AddressServiceImpl implements AddressService {
 
     private AddressRepository repository;
-    private ClientService clientService;
 
-    public AddressServiceImpl(AddressRepository repository, ClientService clientService) {
+    public AddressServiceImpl(AddressRepository repository) {
         this.repository = repository;
-        this.clientService = clientService;
     }
 
     @Transactional
     @Override
     public Address save(Client client, Address address) {
 
-//    Client client = clientService.search(id);
     address.setClient(client);
         return repository.save(address);
     }
@@ -35,7 +32,5 @@ public class AddressServiceImpl implements AddressService {
     public Address getReferenceById(UUID id) {
         return repository.getReferenceById(id);
     }
-
-
 
 }

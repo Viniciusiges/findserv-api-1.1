@@ -11,4 +11,5 @@ public interface AddressService {
     Address save( Client client, Address address);
 
     Address getReferenceById(UUID id);
+
 }

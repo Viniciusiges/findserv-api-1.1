@@ -17,9 +17,6 @@ public class AddressResponse {
     private String number;
     private String complement;
 
-    private Client client;
-
-
 
     public String getPostalCode() {
         return postalCode;
@@ -77,11 +74,4 @@ public class AddressResponse {
         this.complement = complement;
     }
 
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
 }

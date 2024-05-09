@@ -1,15 +1,12 @@
 package br.com.inteliset.findserv.service.client.impl;
 import br.com.inteliset.findserv.domain.model.client.Client;
-import br.com.inteliset.findserv.domain.repository.AddressRepository;
 import br.com.inteliset.findserv.domain.repository.ClientRepository;
 import br.com.inteliset.findserv.exception.DomainException;
-import br.com.inteliset.findserv.service.address.AddressService;
 import br.com.inteliset.findserv.service.client.ClientService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,6 +18,7 @@ public class ClientServiceImpl implements ClientService {
 
     public ClientServiceImpl(ClientRepository repository) {
         this.repository = repository;
+
     }
     @Transactional
     @Override
@@ -36,6 +34,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client getReferenceById(UUID id) {
         return repository.getReferenceById(id);
+
     }
 
 

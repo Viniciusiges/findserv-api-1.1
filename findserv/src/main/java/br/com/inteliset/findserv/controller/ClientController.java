@@ -1,6 +1,7 @@
 package br.com.inteliset.findserv.controller;
 
 import br.com.inteliset.findserv.domain.model.client.Client;
+import br.com.inteliset.findserv.dto.addressModel.AddressResponse;
 import br.com.inteliset.findserv.dto.clientModel.*;
 import br.com.inteliset.findserv.mapper.address.AddressMapper;
 import br.com.inteliset.findserv.mapper.client.ClientMapper;
@@ -39,40 +40,20 @@ public class ClientController {
     @PostMapping
     @Transactional
     public ResponseEntity<ClientResponse> toRegister(@RequestBody @Valid ClientRequest clientRequest) {
-        System.out.println("Estou aqui---------"+clientRequest.getAddress());
-        var client2 = clientMapper.toEntity(clientRequest);
-        var client = clientService.save(client2);
+
+        var client = clientService.save(clientMapper.toEntity(clientRequest));
         var address = addressMapper.toEntity(clientRequest.getAddress());
         addressService.save(client, address);
-        var clientSave = clientService.getReferenceById(client2.getId());
-        System.out.println("------------");
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(clientMapper.toModel(clientSave));
+        ClientResponse clientResponse = clientMapper.toModel(clientService.getReferenceById(client.getId()));
+        clientResponse.setAddress(addressMapper.toModel(address));
+        return ResponseEntity.status(HttpStatus.CREATED).body(clientResponse);
     }
-
-//    var clientResponse = clientMapper.toModel(clientService.getReferenceById(client.getId()));
-//        System.out.println("------------"+clientResponse);
-//
-
-//    @PostMapping
-//    @Transactional
-//    public ResponseEntity<ClientResponse> toRegister(@RequestBody @Valid ClientRequest clientRequest, UriComponentsBuilder uriBuilder) {
-//
-//        var client = clientService.save(clientMapper.toEntity(clientRequest));
-//        var address = addressMapper.toEntity(clientRequest.getAddress());
-//        addressService.save(client, address);
-//        var clientSave = clientService.getReferenceById(client.getId());
-//
-//        var uri = uriBuilder.path("/client").buildAndExpand(client.getId()).toUri();
-//        return ResponseEntity.created(uri).body(clientMapper.toModel(clientSave));
-//    }
 
     @GetMapping
     public ResponseEntity <List<ClientResponse>> toSearch(@PageableDefault(size = 9, sort = {"name"}) Pageable pages){
         var data = clientMapper.toCollectionModel(clientService.findAllByActiveTrue(pages));
         return ResponseEntity.ok(data);
     }
-
 
     @Transactional
     @PutMapping("/{id}")
@@ -91,12 +72,6 @@ public class ClientController {
         return ResponseEntity.noContent().build();
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity toDetail(@PathVariable UUID id){
-//        var client = clientService.getReferenceById(id);
-//        return ResponseEntity.ok(new ClientDetailedData(client));
-//    }
-
     @GetMapping("/{id}")
     public ResponseEntity<ClientResponseDetail> toDetail(@PathVariable UUID id) {
         return clientService.findById(id)
@@ -105,14 +80,13 @@ public class ClientController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PatchMapping
+    @Transactional
+    public ResponseEntity<ClientResponse> reactivate(@RequestBody @Valid ClientActive clientActive) {
+        var client = clientService.getReferenceById(clientActive.getId());
+        client.active();
 
-
-//    @PatchMapping
-//    @Transactional
-//    public ResponseEntity reactivate(@RequestBody @Valid ClientActive data) {
-//        var client = clientService.getReferenceById(data.id());
-//        client.active();
-//        return ResponseEntity.ok(new ClientDetailedData(client));
-//    }
+        return ResponseEntity.ok(clientMapper.toModel(client));
+    }
 
 }
