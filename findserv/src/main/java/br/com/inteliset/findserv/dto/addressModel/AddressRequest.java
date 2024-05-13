@@ -9,12 +9,12 @@ import jakarta.validation.constraints.Pattern;
 public class AddressRequest {
 
     @NotBlank
-    @Pattern(regexp = "\\d{8}")
+    @Pattern(regexp = "\\d{8}", message = "Não corresponde a um CEP valido")
     private String postalCode;
+    @Pattern(regexp = "^[A-Z]{2}$", message = "Somente Letras Maiusculas")
     @NotBlank
     private String state;
     @NotBlank
-    @Pattern(regexp = "\\d{2}")
     private String city;
     @NotBlank
     private String district;
@@ -22,9 +22,6 @@ public class AddressRequest {
     private String street;
     private String number;
     private String complement;
-//    private Client client;
-//    private Professional professional;
-
     public String getPostalCode() {
         return postalCode;
     }

@@ -1,6 +1,8 @@
 package br.com.inteliset.findserv.dto.clientModel;
 
 import br.com.inteliset.findserv.dto.addressModel.AddressRequest;
+import jakarta.persistence.Column;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
 public class ClientRequest {
@@ -22,6 +24,7 @@ public class ClientRequest {
     @Email
     private String email;
 
+    @Valid
     @NotNull
     private AddressRequest address;//com o nome do atributo como addressRequest, nao funcionou
     private Boolean active = true;
