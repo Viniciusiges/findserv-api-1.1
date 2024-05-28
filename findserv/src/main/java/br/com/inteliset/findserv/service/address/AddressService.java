@@ -10,6 +10,9 @@ public interface AddressService {
 
     Address save( Client client, Address address);
 
+    Address save(Professional professional, Address address);
     Address getReferenceById(UUID id);
+
+    Address updateAddress(Address addressDb, Address addressUpDate);
 
 }

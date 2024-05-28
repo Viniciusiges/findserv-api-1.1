@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.util.UUID;
 @Table(name = "address")
-@Entity(name = "Address")
+@Entity
 public class Address {
 
     @Id
@@ -31,7 +31,9 @@ public class Address {
     private Client client;
 
 
-    public Address() {}
+    public Address() {
+        
+    }
 
     public Address(UUID id, String postalCode, String state, String city, String district, String street, String number, String complement, Client client, Professional professional) {
         this.id = id;

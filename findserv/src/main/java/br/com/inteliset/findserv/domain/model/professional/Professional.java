@@ -1,15 +1,13 @@
 package br.com.inteliset.findserv.domain.model.professional;
 
 import br.com.inteliset.findserv.domain.model.address.Address;
-import br.com.inteliset.findserv.dto.professionalModel.ProfessionalRegistrationData;
-import br.com.inteliset.findserv.dto.professionalModel.ProfessionalUpdateData;
 import jakarta.persistence.*;
 
 import java.util.Objects;
 import java.util.UUID;
 
 @Table(name = "professional")
-@Entity(name = "Professional")
+@Entity
 public class Professional {
 
 
@@ -28,25 +26,25 @@ public class Professional {
     private Activity activity;
     //Embuti uma nova tabela dentro dessa entidade
 
-    @OneToOne
+    @OneToOne(mappedBy = "professional")
     private Address addressId;
 
     private Boolean active;
 
     public Professional() {}
 
-
-//    public Professional(ProfessionalRegistrationData date) {
-//        this.name = date.name();
-//        this.cpf = date.cpf();
-//        this.phone = date.phone();
-//        this.email = date.email();
-//        this.beenWorking = date.beenWorking();
-//        this.valueHour = date.valueHour();
-//        this.activity = date.activity();
-//        this.address = new Address(date.address());
-//        this.active = true;
-//    }
+    public Professional(UUID id, String name, String cpf, String phone, String email, String beenWorking, String valueHour, Activity activity, Address addressId, Boolean active) {
+        this.id = id;
+        this.name = name;
+        this.cpf = cpf;
+        this.phone = phone;
+        this.email = email;
+        this.beenWorking = beenWorking;
+        this.valueHour = valueHour;
+        this.activity = activity;
+        this.addressId = addressId;
+        this.active = active;
+    }
 
     public UUID getId() {
         return id;
@@ -112,14 +110,23 @@ public class Professional {
         this.activity = activity;
     }
 
-    public Address getAddress() {
+    public Address getAddressId() {
         return addressId;
     }
 
-    public void setAddress(Address addressId) {
+    public void setAddressId(Address addressId) {
         this.addressId = addressId;
     }
-//Aqui estamos criando um hash code unico somente para o ID , e mudando a forma de comparar com equals.
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    //Aqui estamos criando um hash code unico somente para o ID , e mudando a forma de comparar com equals.
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

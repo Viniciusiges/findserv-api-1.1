@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class HandleExceptions {
 
     //ID invalido
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler({EntityNotFoundException.class})
     public ResponseEntity handle404() {
         return ResponseEntity.notFound().build();
     }

@@ -1,6 +1,7 @@
 package br.com.inteliset.findserv.mapper.professional;
 
 import br.com.inteliset.findserv.domain.model.professional.Professional;
+import br.com.inteliset.findserv.dto.professionalModel.ProfessionalDetail;
 import br.com.inteliset.findserv.dto.professionalModel.ProfessionalRequest;
 import br.com.inteliset.findserv.dto.professionalModel.ProfessionalResponse;
 import br.com.inteliset.findserv.dto.professionalModel.ProfessionalUpdateRequest;
@@ -35,4 +36,7 @@ public class ProfessionalMapper {
     }
 
 
+    public ProfessionalDetail toModelDetail(Professional professional) {
+        return modelMapper.map(professional, ProfessionalDetail.class);
+    }
 }

@@ -3,11 +3,13 @@ package br.com.inteliset.findserv.service.professional.impl;
 import br.com.inteliset.findserv.domain.model.professional.Professional;
 import br.com.inteliset.findserv.domain.repository.ProfessionalRepository;
 import br.com.inteliset.findserv.service.professional.ProfessionalService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -35,6 +37,11 @@ public class ProfessionalServiceImpl implements ProfessionalService {
         return repository.getReferenceById(id);
     }
 
+    @Override
+    public Optional<Professional> findById(UUID id) {
+        return Optional.ofNullable(repository.findById(id)
+                .orElseThrow(EntityNotFoundException::new));
+    }
 
 
 }

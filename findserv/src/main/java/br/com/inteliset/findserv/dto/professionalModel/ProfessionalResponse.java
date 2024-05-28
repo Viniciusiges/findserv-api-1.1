@@ -2,6 +2,7 @@ package br.com.inteliset.findserv.dto.professionalModel;
 
 import br.com.inteliset.findserv.domain.model.address.Address;
 import br.com.inteliset.findserv.domain.model.professional.Activity;
+import br.com.inteliset.findserv.dto.addressModel.AddressResponse;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -17,7 +18,7 @@ public class ProfessionalResponse {
     private String beenWorking;
     private String valueHour;
     private Activity activity;
-    private Address address;
+    private AddressResponse address;
 
     public UUID getId() {
         return id;
@@ -83,11 +84,11 @@ public class ProfessionalResponse {
         this.activity = activity;
     }
 
-    public Address getAddress() {
+    public AddressResponse getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressResponse address) {
         this.address = address;
     }
 }
