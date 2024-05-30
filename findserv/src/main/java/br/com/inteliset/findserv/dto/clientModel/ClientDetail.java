@@ -1,13 +1,10 @@
 package br.com.inteliset.findserv.dto.clientModel;
 
-import br.com.inteliset.findserv.domain.model.address.Address;
 import br.com.inteliset.findserv.dto.addressModel.AddressResponse;
-import jakarta.persistence.OneToOne;
 
-import java.util.List;
 import java.util.UUID;
 
-public class ClientResponseDetail {
+public class ClientDetail {
 
     private UUID id;
     private String name;

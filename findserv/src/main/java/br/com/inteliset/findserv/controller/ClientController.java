@@ -1,8 +1,7 @@
 package br.com.inteliset.findserv.controller;
 
-import br.com.inteliset.findserv.domain.model.client.Client;
-import br.com.inteliset.findserv.dto.addressModel.AddressResponse;
 import br.com.inteliset.findserv.dto.clientModel.*;
+import br.com.inteliset.findserv.dto.professionalModel.ProfessionalDetail;
 import br.com.inteliset.findserv.mapper.address.AddressMapper;
 import br.com.inteliset.findserv.mapper.client.ClientMapper;
 import br.com.inteliset.findserv.service.address.AddressService;
@@ -14,7 +13,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.UUID;
@@ -62,21 +60,34 @@ public class ClientController {
         var clientResponse = clientMapper.toModel(clientService.update(id, client));
         return ResponseEntity.status(HttpStatus.OK).body(clientResponse);
     }
-
-    @DeleteMapping("/{id}")
     @Transactional
+    @DeleteMapping("/{id}")
     public ResponseEntity toDelete(@PathVariable UUID id){
-        var client= clientService.getReferenceById(id);
+        clientService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/cpf/{cpf}")
+    @Transactional
+    public ResponseEntity toDisable(@PathVariable String cpf){
+        var client= clientService.getReferenceByCpf(cpf);
         client.delete();
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClientResponseDetail> toDetail(@PathVariable UUID id) {
+    public ResponseEntity<ClientDetail> toDetail(@PathVariable UUID id) {
         return clientService.findById(id)
                 .map(clientMapper::toModelDetail)
-                .map(clientResponseDetail -> ResponseEntity.status(HttpStatus.OK).body(clientResponseDetail))
+                .map(clientDetail -> ResponseEntity.status(HttpStatus.OK).body(clientDetail))
+                .orElse(ResponseEntity.notFound().build());
+    }
+    @GetMapping("/cpf/{cpf}")
+    public ResponseEntity<ClientDetail> toDetailCpf(@PathVariable String cpf) {
+        return clientService.findByCpf(cpf)
+                .map(clientMapper::toModelDetail)
+                .map(clientDetail -> ResponseEntity.status(HttpStatus.OK).body(clientDetail))
                 .orElse(ResponseEntity.notFound().build());
     }
 

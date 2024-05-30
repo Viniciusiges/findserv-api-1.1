@@ -10,5 +10,8 @@ import java.util.UUID;
 
 public interface ProfessionalRepository extends JpaRepository<Professional, UUID> {
     Page<Professional> findAllByActiveTrue(Pageable pages);
+    Optional<Professional> findByCpf (String cpf);
+
+    Professional getReferenceByCpf (String cpf);
 
 }

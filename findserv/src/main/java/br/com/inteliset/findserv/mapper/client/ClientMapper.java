@@ -4,7 +4,7 @@ import br.com.inteliset.findserv.domain.model.address.Address;
 import br.com.inteliset.findserv.domain.model.client.Client;
 import br.com.inteliset.findserv.dto.clientModel.ClientRequest;
 import br.com.inteliset.findserv.dto.clientModel.ClientResponse;
-import br.com.inteliset.findserv.dto.clientModel.ClientResponseDetail;
+import br.com.inteliset.findserv.dto.clientModel.ClientDetail;
 import br.com.inteliset.findserv.dto.clientModel.ClientRequestUpdate;
 import br.com.inteliset.findserv.exception.DomainException;
 import org.modelmapper.ModelMapper;
@@ -54,8 +54,8 @@ public ClientResponse toModel (Client client){
                 .toList();
     }
 
-    public ClientResponseDetail toModelDetail (Client client){
-        return modelMapper.map(client, ClientResponseDetail.class);
+    public ClientDetail toModelDetail (Client client){
+        return modelMapper.map(client, ClientDetail.class);
     }
 
 }

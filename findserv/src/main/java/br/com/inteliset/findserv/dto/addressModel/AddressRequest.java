@@ -20,6 +20,7 @@ public class AddressRequest {
     private String district;
     @NotBlank
     private String street;
+
     private String number;
     private String complement;
     public String getPostalCode() {

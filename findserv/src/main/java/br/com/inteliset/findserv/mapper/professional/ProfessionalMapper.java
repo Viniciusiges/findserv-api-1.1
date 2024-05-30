@@ -1,10 +1,7 @@
 package br.com.inteliset.findserv.mapper.professional;
 
 import br.com.inteliset.findserv.domain.model.professional.Professional;
-import br.com.inteliset.findserv.dto.professionalModel.ProfessionalDetail;
-import br.com.inteliset.findserv.dto.professionalModel.ProfessionalRequest;
-import br.com.inteliset.findserv.dto.professionalModel.ProfessionalResponse;
-import br.com.inteliset.findserv.dto.professionalModel.ProfessionalUpdateRequest;
+import br.com.inteliset.findserv.dto.professionalModel.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -25,7 +22,7 @@ public class ProfessionalMapper {
     public Professional toEntity (ProfessionalRequest professional){
         return modelMapper.map(professional, Professional.class);
     }
-    public Professional toEntityUpdate (ProfessionalUpdateRequest professional){
+    public Professional toEntityUpdate (ProfessionalRequestUpdate professional){
         return modelMapper.map(professional, Professional.class);
     }
 

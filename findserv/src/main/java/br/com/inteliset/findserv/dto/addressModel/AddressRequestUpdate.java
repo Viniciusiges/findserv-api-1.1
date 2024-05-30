@@ -1,11 +1,13 @@
 package br.com.inteliset.findserv.dto.addressModel;
 
 import br.com.inteliset.findserv.domain.model.client.Client;
+import jakarta.validation.constraints.Pattern;
 
 public class AddressRequestUpdate {
 
-
+    @Pattern(regexp = "\\d{8}", message = "Não corresponde a um CEP valido")
     private String postalCode;
+    @Pattern(regexp = "^[A-Z]{2}$", message = "Somente Letras Maiusculas")
     private String state;
     private String city;
     private String district;

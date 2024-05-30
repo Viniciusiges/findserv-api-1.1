@@ -47,7 +47,6 @@ public class ClientServiceImpl implements ClientService {
         return repository.findAll();
     }
 
-
     @Transactional
     @Override
     public Client update(UUID id, Client client) {
@@ -60,51 +59,31 @@ public class ClientServiceImpl implements ClientService {
         if (client.getPhone() != null) {
             clientDb.setPhone(client.getPhone());
         }
-
         var addressUpDate = addressService.updateAddress(clientDb.getAddressId(), client.getAddressId());
         clientDb.setAddressId(addressUpDate);
-
         return save(clientDb);
     }
-
-//    public Client update(UUID id, Client client) {
-//
-//        var clientDb = getReferenceById(id);
-//
-//        if (clientDb.getActive().equals(false)){
-//            throw new EntityNotFoundException();
-//        }
-//        if (client.getPhone() != null) {
-//            clientDb.setPhone(client.getPhone());
-//        }
-//        if (client.getAddressId().getPostalCode() != null) {
-//            clientDb.getAddressId().setPostalCode(client.getAddressId().getPostalCode());
-//        }
-//        if (client.getAddressId().getState() != null) {
-//            clientDb.getAddressId().setState(client.getAddressId().getState());
-//        }
-//        if (client.getAddressId().getCity() != null) {
-//            clientDb.getAddressId().setCity(client.getAddressId().getCity());
-//        }
-//        if (client.getAddressId().getDistrict() != null) {
-//            clientDb.getAddressId().setDistrict(client.getAddressId().getDistrict());
-//        }
-//        if (client.getAddressId().getStreet() != null) {
-//            clientDb.getAddressId().setStreet(client.getAddressId().getStreet());
-//        }
-//        if (client.getAddressId().getNumber() != null) {
-//            clientDb.getAddressId().setNumber(client.getAddressId().getNumber());
-//        }
-//        if (client.getAddressId().getComplement() != null) {
-//            clientDb.getAddressId().setComplement(client.getAddressId().getComplement());
-//        }
-//        return save(clientDb);
-//    }
 
     @Override
     public Optional<Client> findById(UUID id) {
         return Optional.ofNullable(repository.findById(id)
                 .orElseThrow(EntityNotFoundException::new));
+    }
+
+    @Override
+    public Optional<Client> findByCpf(String cpf) {
+        return repository.findByCpf(cpf);
+    }
+
+    @Override
+    public Client getReferenceByCpf(String cpf) {
+        return repository.getReferenceByCpf(cpf);
+    }
+
+    @Transactional
+    @Override
+    public void deleteById(UUID id) {
+        repository.deleteById(id);
     }
 
 

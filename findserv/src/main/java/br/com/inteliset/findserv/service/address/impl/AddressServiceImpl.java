@@ -35,11 +35,6 @@ public class AddressServiceImpl implements AddressService {
         return repository.save(address);
     }
 
-    @Override
-    public Address getReferenceById(UUID id) {
-        return repository.getReferenceById(id);
-    }
-
     public Address updateAddress(Address addressDb, Address addressUpDate) {
 
         if (addressUpDate.getPostalCode() != null) {

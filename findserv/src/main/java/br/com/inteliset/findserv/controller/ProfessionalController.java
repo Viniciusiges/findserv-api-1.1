@@ -1,6 +1,8 @@
 package br.com.inteliset.findserv.controller;
 
-import br.com.inteliset.findserv.dto.clientModel.ClientResponseDetail;
+import br.com.inteliset.findserv.dto.clientModel.ClientActive;
+import br.com.inteliset.findserv.dto.clientModel.ClientRequestUpdate;
+import br.com.inteliset.findserv.dto.clientModel.ClientResponse;
 import br.com.inteliset.findserv.dto.professionalModel.*;
 import br.com.inteliset.findserv.mapper.address.AddressMapper;
 import br.com.inteliset.findserv.mapper.professional.ProfessionalMapper;
@@ -49,10 +51,9 @@ public class ProfessionalController {
     @GetMapping
     public ResponseEntity <List<ProfessionalResponse>> toSearch(@PageableDefault(size = 9, sort = {"name"}) Pageable pages){
         var data = professionalMapper.toCollectionModel(professionalService.findAllByActiveTrue(pages));
+        System.out.println(data);
         return ResponseEntity.ok(data);
     }
-
-
 
 //    @PutMapping
 //    @Transactional
@@ -62,15 +63,24 @@ public class ProfessionalController {
 //        return ResponseEntity.ok(new ProfessionalDetailedData(professional));
 //    }
 
-//    @Transactional
-//    @DeleteMapping("/{id}")
-//    public void toDelete(@PathVariable UUID id){
-//        repository.deleteById(id);
-//    }
-    @DeleteMapping("/{id}")
     @Transactional
+    @PutMapping("/{id}")
+    public ResponseEntity<ProfessionalResponse> toUpdate(@PathVariable UUID id, @RequestBody @Valid ProfessionalRequestUpdate request) {
+        var professional = professionalMapper.toEntityUpdate(request);
+        var clientResponse = professionalMapper.toModel(professionalService.update(id, professional));
+        return ResponseEntity.status(HttpStatus.OK).body(clientResponse);
+    }
+
+    @Transactional
+    @DeleteMapping("/{id}")
     public ResponseEntity toDelete(@PathVariable UUID id){
-        var professional = professionalService.getReferenceById(id);
+        professionalService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+    @DeleteMapping("/cpf/{cpf}")
+    @Transactional
+    public ResponseEntity toDisable(@PathVariable String cpf){
+        var professional = professionalService.getReferenceByCpf(cpf);
         professional.delete();
 
         return ResponseEntity.noContent().build();
@@ -83,18 +93,27 @@ public class ProfessionalController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/cpf/{cpf}")
+    public ResponseEntity<ProfessionalDetail> toDetailCpf(@PathVariable String cpf) {
+        return professionalService.findByCpf(cpf)
+                .map(professionalMapper::toModelDetail)
+                .map(professionalDetail -> ResponseEntity.status(HttpStatus.OK).body(professionalDetail))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 //    @GetMapping("/{id}")
 //    public ResponseEntity toDetail(@PathVariable UUID id){
 //        var professional = professionalService.getReferenceById(id);
 //        return ResponseEntity.ok(new ProfessionalDetailedData(professional));
 //    }
 
-//    @PatchMapping
-//    @Transactional
-//    public ResponseEntity reactivate(@RequestBody @Valid ProfessionalActive data) {
-//        var professional = professionalService.getReferenceById(data.id());
-//        professional.active();
-//        return ResponseEntity.ok(new ProfessionalDetailedData(professional));
-//    }
+    @PatchMapping
+    @Transactional
+    public ResponseEntity<ProfessionalResponse> reactivate(@RequestBody @Valid ProfessionalActive professionalActive) {
+        var professional = professionalService.getReferenceById(professionalActive.getId());
+        professional.active();
+
+        return ResponseEntity.ok(professionalMapper.toModel(professional));
+    }
 
 }

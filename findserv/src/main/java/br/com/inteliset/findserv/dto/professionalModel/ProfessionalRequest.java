@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.NumberFormat;
 
 import java.util.UUID;
 
@@ -20,10 +21,15 @@ public class ProfessionalRequest {
     private String phone;
     @NotBlank
     private String email;
+    @NumberFormat
     private String beenWorking;
+    @NumberFormat
     private String valueHour;
     @NotNull
+    @Enumerated
     private Activity activity;
+
+    private Boolean active = true;
     @Valid
     @NotNull
     private AddressRequest address;
@@ -90,5 +96,12 @@ public class ProfessionalRequest {
 
     public void setAddress(AddressRequest address) {
         this.address = address;
+    }
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

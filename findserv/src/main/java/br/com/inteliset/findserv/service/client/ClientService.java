@@ -20,6 +20,9 @@ public interface ClientService {
     Client update (UUID id,Client client);
 
     Optional<Client> findById(UUID id);
+    Optional<Client> findByCpf (String cpf);
+    Client getReferenceByCpf (String cpf);
+    void deleteById (UUID id);
 
 }
 

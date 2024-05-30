@@ -17,4 +17,10 @@ public interface ProfessionalService {
 
     Optional<Professional> findById(UUID id);
 
+    Professional update(UUID id, Professional professional);
+    Optional<Professional> findByCpf (String cpf);
+    Professional getReferenceByCpf (String cpf);
+
+    void deleteById (UUID id);
+
 }
